@@ -175,10 +175,10 @@ pub async fn start(
 
         match event.code {
             KeyCode::Up | KeyCode::Right => {
-                sender.send(Messages::VolumeUp).await?;
+                sender.send(Messages::ChangeVolume(0.1)).await?;
             }
             KeyCode::Down | KeyCode::Left => {
-                sender.send(Messages::VolumeDown).await?;
+                sender.send(Messages::ChangeVolume(-0.1)).await?;
             }
             KeyCode::Char(character) => match character {
                 'c' => {
@@ -199,10 +199,16 @@ pub async fn start(
                     sender.send(Messages::Pause).await?;
                 }
                 '+' | '=' => {
-                    sender.send(Messages::VolumeUp).await?;
+                    sender.send(Messages::ChangeVolume(0.1)).await?;
                 }
                 '-' | '_' => {
-                    sender.send(Messages::VolumeDown).await?;
+                    sender.send(Messages::ChangeVolume(-0.1)).await?;
+                }
+                '>' | '.' => {
+                    sender.send(Messages::ChangeVolume(0.01)).await?;
+                }
+                '<' | ',' => {
+                    sender.send(Messages::ChangeVolume(-0.01)).await?;
                 }
                 _ => (),
             },
